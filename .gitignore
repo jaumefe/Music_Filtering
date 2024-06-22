@@ -1,7 +1,5 @@
 go.work
-*.zip
-Music*
-Música*
-Pendent_*
-Nou/
+*/
 *.py
+*.json
+music_filter
