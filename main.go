@@ -68,7 +68,7 @@ func main() {
 		}
 
 	} else if config != "" {
-		// Opening and parsing json file for filtering songs (The songs included on the list are not desired to be included)
+		// Opening and parsing json file for filtering songs
 		var filter music
 		jsonFile, err := os.Open(config)
 		if err != nil {
@@ -110,7 +110,7 @@ func main() {
 			default:
 				for _, j := range songs {
 					os.Chdir("Music/")
-					match, err := filepath.Glob(fmt.Sprintf("%v - %v.*", name, j))
+					match, err := filepath.Glob(fmt.Sprintf("%v - %v*", name, j))
 					os.Chdir("../")
 					if err != nil {
 						fmt.Println(err)
