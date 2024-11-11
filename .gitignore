@@ -2,4 +2,4 @@ go.work
 */
 *.py
 *.json
-music_filter
+music*
