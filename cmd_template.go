@@ -16,6 +16,8 @@ var cmdTemplate = &cobra.Command{
 }
 
 func init() {
+	cmdTemplate.Flags().StringP("src", "s", "Music", "Source music directory")
+
 	rootCmd.AddCommand(cmdTemplate)
 }
 
@@ -27,22 +29,9 @@ func cmdTemplateRunE(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	dir, err := os.ReadDir(dirName)
+	err = music.getSongsListFolder(dirName)
 	if err != nil {
 		return err
-	}
-
-	for _, file := range dir {
-		singSong := strings.Split(file.Name(), " - ")
-		if len(singSong) <= 1 {
-			fmt.Printf("Unable to parse %v\n", singSong)
-		} else {
-			singer, songs := singSong[0], singSong[1]
-			if (len(music.Band) == 0) || (music.Band[len(music.Band)-1].Name != singer) {
-				music.Band = append(music.Band, band{Name: singer})
-			}
-			music.Band[len(music.Band)-1].Songs = append(music.Band[len(music.Band)-1].Songs, songs)
-		}
 	}
 
 	content, err := json.MarshalIndent(music, "", "\t")
@@ -55,5 +44,26 @@ func cmdTemplateRunE(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
+	return nil
+}
+
+func (m *music) getSongsListFolder(dirName string) error {
+	dir, err := os.ReadDir(dirName)
+	if err != nil {
+		return err
+	}
+
+	for _, file := range dir {
+		singSong := strings.Split(file.Name(), " - ")
+		if len(singSong) <= 1 {
+			fmt.Printf("Unable to parse %v\n", singSong)
+		} else {
+			singer, songs := singSong[0], singSong[1]
+			if (len(m.Band) == 0) || (m.Band[len(m.Band)-1].Name != singer) {
+				m.Band = append(m.Band, band{Name: singer})
+			}
+			m.Band[len(m.Band)-1].Songs = append(m.Band[len(m.Band)-1].Songs, songs)
+		}
+	}
 	return nil
 }
