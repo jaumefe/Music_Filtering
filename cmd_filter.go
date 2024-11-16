@@ -20,7 +20,6 @@ func init() {
 	cmdFilter.Flags().StringP("src", "s", "Music", "Source music directory")
 	cmdFilter.Flags().StringP("file", "f", "", "Json file to filter")
 	cmdFilter.Flags().StringP("dst", "d", "", "Destination folder")
-	cmdFilter.MarkFlagRequired("src")
 	cmdFilter.MarkFlagRequired("file")
 	cmdFilter.MarkFlagRequired("dst")
 
